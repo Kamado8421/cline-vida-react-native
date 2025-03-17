@@ -1,14 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { styles } from './styles';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '@/src/config/colors';
 import { router } from 'expo-router';
+import { checkUser, getLocationStorage, LocationUserType } from '@/src/services/storages.service';
+import AlertUserRegister from '../alert-user-register';
+import { UserType } from '@/src/services/api.service';
 
 export default function HeaderHome() {
 
+    const [isLoading, setIsloading] = useState(true);
     const [isShowCash, setIsShowCash] = useState(false);
-    const cash = '100,00'
+    const [user, setUser] = useState<UserType>();
+
+    const [cityName, setCityName] = useState('Caregando...');
+    const [city, setCity] = useState<LocationUserType>();
+
+    const [showRegisterAlert, setShowRegisterAlert] = useState(false);
+
+    useEffect(() => {
+
+        const getUser = async () => {
+            const result = await checkUser(setUser);
+            if (result?.infos) {
+                setShowRegisterAlert(false);
+            } else {
+                setShowRegisterAlert(true);
+            }
+        }
+
+
+        const getCity = async () => {
+            setIsloading(true);
+            const res = await getLocationStorage(setCity);
+
+            if (res) {
+                setCity(res); // Atualiza o estado da cidade
+                setCityName(`${res.city} - ${res.ufState.toUpperCase()}`); // Usa diretamente o retorno
+            } else {
+                setCityName('Não informado.');
+            }
+
+            setIsloading(false);
+        };
+
+        getCity();
+        getUser();
+    }, []);
 
     return (
         <View style={{ paddingHorizontal: 20 }}>
@@ -19,10 +58,10 @@ export default function HeaderHome() {
                     </TouchableOpacity>
                     <View>
                         <Text style={styles.locationLabel}>Localização para Clínicas</Text>
-                        <Text style={styles.locationCity}>Itapecuru-Mirim - MA</Text>
+                        <Text style={styles.locationCity}>{cityName}</Text>
                     </View>
                 </View>
-                <TouchableOpacity activeOpacity={0.7} onPress={() => router.navigate('/(tabs)/Profile')}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => router.navigate('/Profile')}>
                     <Image
                         style={styles.profileImage}
                         source={require('../../assets/no-profile.png')}
@@ -30,13 +69,15 @@ export default function HeaderHome() {
                 </TouchableOpacity>
             </View>
 
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <Text style={styles.welcomeTitle}>Olá, Luciano!</Text>
-                <TouchableOpacity activeOpacity={0.8} onPress={() => setIsShowCash((v) => !v)} style={styles.moneyBox}>
-                    <Text style={styles.moneyTitle}>Seu Saldo: R$ {isShowCash ? cash : '********'}</Text>
-                    <Feather name={isShowCash ? 'eye' : 'eye-off' } size={20} color={colors.blue[100]} />
-                </TouchableOpacity>
-            </View>
+            {showRegisterAlert ? <AlertUserRegister /> :
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={styles.welcomeTitle}>Olá, {user?.infos?.fullname.split(' ')[0]}</Text>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => setIsShowCash((v) => !v)} style={styles.moneyBox}>
+                        <Text style={styles.moneyTitle}>Seu Saldo: R$ {isShowCash ? `${user?.infos?.money ? user.infos.money : '0,00'}` : '********'}</Text>
+                        <Feather name={isShowCash ? 'eye' : 'eye-off'} size={20} color={colors.blue[100]} />
+                    </TouchableOpacity>
+                </View>
+            }
             <Text style={styles.welcomeDesc}>Que tal ficar de olho nas clínicas parceiras?</Text>
         </View>
     )

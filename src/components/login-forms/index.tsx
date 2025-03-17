@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Button from '../button';
 import { colors } from '@/src/config/colors';
 import { router } from 'expo-router';
+import { loginUser } from '@/src/services/api.service';
 
 export default function LoginForms() {
 
@@ -14,27 +15,32 @@ export default function LoginForms() {
     const [errorPassword, setErrorPassword] = useState('');
 
     const [focus, setFocus] = useState<'email' | 'password' | ''>('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const user = {
-        email: 'luciano@gmail.com', password: '12345678'
-    }
+    const handleLogin = async () => {
+        setIsLoading(true);
 
-    const handleLogin = () => {
         if (email === '') setErrorEmail('Preencha o campo de e-mail.'); else setErrorEmail('')
         if (password === '') setErrorPassword('Preencha o campo com sua senha.'); else setErrorPassword('')
 
-        if (!email || !password) return;
+        if (!email || !password) return setIsLoading(false);
 
-        if (email === user.email && password === user.password) {
-            setTimeout(() => {
-                router.navigate('/(tabs)/Home');
-            }, 2000);
+        const user = await loginUser({ email, password });
+        console.log(user)
+
+        if (user) {
+            router.navigate('/(tabs)/Home');
             return;
+        } else {
+            setErrorEmail('');
+            setPassword('');
+            setFocus('');
+            setErrorPassword('E-mail ou senha inválidos. Tente Novamente.')
+            setIsLoading(false);
         }
-
-        setErrorPassword('E-mail ou senha inválidos. Tente Novamente.')
-        setPassword('');
+       
     }
+
 
     return (
         <View>
@@ -58,12 +64,12 @@ export default function LoginForms() {
                 secureTextEntry={true}
             />
             {errorPassword && <Text style={styles.labelError}>{errorPassword}</Text>}
-            <TouchableOpacity>
+            <TouchableOpacity disabled={isLoading}>
                 <Text style={styles.liking}>Esqueceu sua senha?</Text>
             </TouchableOpacity>
-            <Button title='Entrar' onPress={() => handleLogin()} />
+            <Button isLoading={isLoading} disabled={isLoading} title='Entrar' onPress={() => handleLogin()} />
             <Text style={{ textAlign: 'center', marginTop: 20 }}>Não tem uma conta?</Text>
-            <Button title='Cadastrar-se' style={{ backgroundColor: colors.gray[400], marginTop: 20 }} onPress={() => router.navigate('/Register')} />
+            <Button isLoading={false} disabled={isLoading} title='Cadastrar-se' style={{ backgroundColor: isLoading ? colors.gray[300] : colors.gray[400], marginTop: 20 }} onPress={() => router.navigate('/Register')} />
         </View>
     )
 }

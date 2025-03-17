@@ -4,22 +4,15 @@ import { styles } from './styles';
 
 type PropsType = TouchableOpacityProps & {
     title: string;
+    isLoading?: boolean;
     onPress: () => void;
 }
-export default function Button({title, onPress, style, ...rest}: PropsType){
-
-    const [isLoading, setIsLoading] = useState(false);
+export default function Button({title, isLoading, onPress, style, ...rest}: PropsType){
 
     const handlePress = async () => {
         if(isLoading) return;
-        
-        setIsLoading(true);
         await onPress();
-
-        setTimeout(() => {
-            setIsLoading(false);         
-        }, 1500)
-
+        console.log('finalizado onpress bttn')    
     }
 
     return (

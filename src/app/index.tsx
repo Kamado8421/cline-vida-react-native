@@ -2,9 +2,30 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { colors } from '../config/colors';
 import { router } from 'expo-router'
 import Button from '../components/button';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { checkUser } from '../services/storages.service';
+import { UserType } from '../services/api.service';
+import Loading from '../components/pre-loading';
 
 export default function Index() {
+
+    const [user, setUser] = useState<UserType>();
+    const [isLoading, setIsloading] = useState(true);
+
+    useEffect(() => {
+        const check = async () => {
+            setIsloading(true);
+            const result = await checkUser(setUser);
+            if (result) {
+                router.navigate('/(tabs)/Home');
+            } else {
+                setIsloading(false);
+            }
+        }
+        check();
+    }, [])
+
+    if (isLoading) return <Loading />
 
     return (
         <View style={s.container}>
@@ -21,7 +42,7 @@ export default function Index() {
                 tudo em um só lugar
             </Text>
 
-            <Button title='Cadastrar-se como Clínica' style={{ backgroundColor: colors.blue[200], width: '82%', marginTop: 20 }} onPress={() => router.navigate('/(tabs)/Home')} />
+            <Button title='Cadastrar-se como Médico' style={{ backgroundColor: colors.blue[200], width: '82%', marginTop: 20 }} onPress={() => router.navigate('/(tabs)/Home')} />
             <View style={s.boxBttn}>
                 <TouchableOpacity onPress={() => router.navigate('/Register')} activeOpacity={0.6} style={[s.bttn, { backgroundColor: colors.gray[100] }]}>
                     <Text style={[s.titleBttn, { color: colors.gray[400] }]}>Cadastrar-se</Text>

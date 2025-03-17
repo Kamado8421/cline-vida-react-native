@@ -1,19 +1,18 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Homeutton from './home-button';
-import { Icon, IconProps } from '@expo/vector-icons/build/createIconSet';
 import { styles } from './styles';
-import { MyFeatherProps } from '@/src/config/icons.props';
+import { MyFontAwesome } from '@/src/config/icons.props';
 
-const buttons: {label: string, icon: MyFeatherProps}[] = [
-    {label: 'Consultas', icon: 'book-open'},
-    {label: 'Exames', icon: 'book-open'},
-    {label: 'Check-up', icon: 'book-open'},
-    {label: 'Procedimentos', icon: 'book-open'},
-    {label: 'Cirurgias', icon: 'book-open'},
-    {label: 'Odonto', icon: 'book-open'},
-    {label: 'Resultado Exames', icon: 'book-open'},
-    {label: 'Ver Preços', icon: 'book-open'},
-    {label: 'Locais Atendimento', icon: 'book-open'},
+const buttons: {label: string, icon: MyFontAwesome}[] = [
+    {label: 'Consultas', icon: 'stethoscope'},
+    {label: 'Exames', icon: 'flask'},
+    {label: 'Check-up', icon: 'check-circle-o'},
+    {label: 'Procedimentos', icon: 'user-md'},
+    {label: 'Cirurgias', icon: 'spinner'},
+    {label: 'Odonto', icon: 'heart-o'},
+    {label: 'Resultado Exames', icon: 'check-square-o'},
+    {label: 'Ver Preços', icon: 'tags'},
+    {label: 'Locais Atendimento', icon: 'hospital-o'},
 ]
 export default function Homebuttons(){
     return (
