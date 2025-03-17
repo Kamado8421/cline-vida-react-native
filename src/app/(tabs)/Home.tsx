@@ -1,6 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { colors } from '../../config/colors';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import HeaderHome from '../../components/header-home';
 import Homebuttons from '../../components/home-buttons';
 import WhatsAppLinkingButton from '../../components/whatsapp-button';

@@ -13,9 +13,11 @@ export default function EditFormsProfile(props: PropsType) {
     const [errorName, setErrorName] = useState('');
     const [errorCPF, setErrorCPF] = useState('');
     const [errorDateBirth, setErrorDateBirth] = useState('');
+    const [errorPhone, setErrorPhone] = useState('');
 
     const [fullname, setFullname] = useState('');
     const [cpf, setCpf] = useState('');
+    const [phone, setPhone] = useState('');
     const [birth, setBirth] = useState('');
 
     const [user, setUser] = useState<UserType>()
@@ -37,7 +39,10 @@ export default function EditFormsProfile(props: PropsType) {
         if (birth === '') setErrorDateBirth('Preencha o campo com sua data de nascimento\n(dd/mm/aaaa)');
         else setErrorDateBirth('');
 
-        if (!cpf || !fullname || !birth) {
+        if (phone === '') setErrorPhone('Preencha o campo com seu número de telefone\n(00) 90000-0000');
+        else setErrorPhone('');
+
+        if (!cpf || !fullname || !birth || !phone) {
             setIsloading(false)
             return alert('Todos os campos são obrigatórios')
         };
@@ -103,6 +108,12 @@ export default function EditFormsProfile(props: PropsType) {
                 value={birth}
                 error={errorDateBirth}
                 onChangeText={(v) => setBirth(v)}
+            />
+            <Input
+                placeholder='Telefone*'
+                value={phone}
+                error={errorPhone}
+                onChangeText={(v) => setPhone(v)}
             />
             <Button style={{ marginTop: 20 }} isLoading={isLoading} onPress={() => handleUpdateInfos()} title='Confirmar e Salvar' />
         </ScrollView>
