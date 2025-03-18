@@ -13,7 +13,7 @@ const buttons: {label: string, icon: MyFontAwesome, onPress?: () => void}[] = [
     {label: 'Odonto', icon: 'heart-o'},
     {label: 'Resultado Exames', icon: 'check-square-o'},
     {label: 'Ver Preços', icon: 'tags', onPress: () => router.navigate('/(home-cases)/ShowPrices')},
-    {label: 'Locais Atendimento', icon: 'hospital-o'},
+    {label: 'Locais Atendimento', icon: 'hospital-o', onPress: () => router.navigate('/(home-cases)/ServiceLocations')},
 ]
 export default function Homebuttons(){
     return (

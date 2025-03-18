@@ -1,4 +1,5 @@
 import CartShoppingEnds from '@/src/components/cart-shopping-ends';
+import CartShoppingPedings from '@/src/components/cart-shopping-pedings';
 import IncompleteUserScreen from '@/src/components/incomplete-user-screen';
 import { colors } from '@/src/config/colors';
 import { UserType } from '@/src/services/api.service';
@@ -17,7 +18,7 @@ export default function Cart() {
 
             console.log(result);
             if (result?.infos) {
-                setScreen('completed');
+                setScreen('pending');
             }
         }
 
@@ -36,13 +37,13 @@ export default function Cart() {
                     <Text style={[s.titleButtonScree, screen === 'completed' ? s.titleButtonScreeSelected : {}]}>Concluídos</Text>
                 </TouchableOpacity>
             </View>
-            {screen === 'pending' ? <View style={{backgroundColor: '#efefef', flex: 1}}>
-                
+            {screen === 'pending' ? <View style={{ backgroundColor: '#efefef', flex: 1 }}>
+                <CartShoppingPedings />
             </View> :
 
-                screen === 'completed' ? <View style={{backgroundColor: '#efefef', flex: 1}}>
-                    <CartShoppingEnds />
-                </View> : null}
+            screen === 'completed' ? <View style={{ backgroundColor: '#efefef', flex: 1 }}>
+                <CartShoppingEnds />
+            </View> : null}
         </View>
     )
 
@@ -75,7 +76,7 @@ const s = StyleSheet.create({
     titleButtonScree: {
         fontSize: 16,
         fontWeight: 400,
-        
+
     },
     bttnScreen: {
         height: 52,

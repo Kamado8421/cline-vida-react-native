@@ -12,7 +12,6 @@ export default function Button({title, isLoading, onPress, style, ...rest}: Prop
     const handlePress = async () => {
         if(isLoading) return;
         await onPress();
-        console.log('finalizado onpress bttn')    
     }
 
     return (
