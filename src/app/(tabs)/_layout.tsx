@@ -1,6 +1,7 @@
 import Loading from '@/src/components/pre-loading';
 import { colors } from '@/src/config/colors';
 import { checkUser } from '@/src/services/storages.service';
+import { MaterialIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router, Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -33,6 +34,17 @@ export default function TabLayout() {
           title: 'Início',
           headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+        }}
+      />
+      
+      <Tabs.Screen
+        name="Cart"
+        options={{
+          title: 'Carrinho',
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerTitle: 'Suas Compras',
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="shopping-cart" color={color} />,
         }}
       />
     </Tabs>

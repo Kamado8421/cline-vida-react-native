@@ -108,7 +108,7 @@ export default function Location() {
                 <Text style={s.title}> Locatização de Clínicas</Text>
             </View>
             <Text style={s.subtitle}>Clique abaixo para escolher{'\n'}o seu Município</Text>
-            <ScrollView style={{ marginTop: 100, paddingHorizontal: 20 }}>
+            <ScrollView style={{ paddingHorizontal: 20 }}>
                 {isLoading && <View style={s.container}>
                     <ActivityIndicator style={{ marginTop: '65%' }} size={'large'} color={colors.blue[100]} />
                 </View>}
