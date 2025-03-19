@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserType } from "./api.service";
 
 export type LocationUserType = {
+    idCity: string;
     city: string;
     ufState: string;
 }

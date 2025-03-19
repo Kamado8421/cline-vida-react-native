@@ -5,6 +5,7 @@ import { colors } from '../config/colors';
 import EditFormsProfile from '../components/edit-forms-profile';
 
 export default function EditProfile(){
+
     return (
         <View style={s.container}>
             <ToBackButton />

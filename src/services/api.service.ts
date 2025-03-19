@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setUserStorage } from "./storages.service";
 
-const HOST = 'http://192.168.110.15:3333';
+const HOST = 'http://192.168.1.4:3333';
 
 export type UserInfosType = {
     fullname: string,

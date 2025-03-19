@@ -3,7 +3,7 @@ import SearchInput from '../search-input';
 import { useEffect, useState } from 'react';
 import PriceBlock from './price-block';
 import { MedicineType } from '@/src/data/props';
-import { medicines } from '@/src/data/medicine.array';
+import { medicines } from '@/src/data/medicines.array';
 
 export default function PricesBlocks() {
 

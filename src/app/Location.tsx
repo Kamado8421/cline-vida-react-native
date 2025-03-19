@@ -5,42 +5,9 @@ import { colors } from '../config/colors';
 import { useState } from 'react';
 import { setLocationStorage } from '../services/storages.service';
 import { router } from 'expo-router';
+import { ClinicasAfiliadas, EstadosBrasileiros } from '../data/locations.array';
+import { MunicipiosType } from '../data/props';
 
-const EstadosBrasileiros: { id: string, name: string, uf: string }[] = [
-    { id: 'acre-br', name: 'Acre', uf: 'AC' },
-    { id: 'alagoas-br', name: 'Alagoas', uf: 'AL' },
-    { id: 'amapa-br', name: 'Amapá', uf: 'AP' },
-    { id: 'amazonas-br', name: 'Amazonas', uf: 'AM' },
-    { id: 'bahia-br', name: 'Bahia', uf: 'BA' },
-    { id: 'ceara-br', name: 'Ceará', uf: 'CE' },
-    { id: 'distrito-federal-br', name: 'Distrito Federal', uf: 'DF' },
-    { id: 'espirito-santo-br', name: 'Espírito Santo', uf: 'ES' },
-    { id: 'goias-br', name: 'Goiás', uf: 'GO' },
-    { id: 'maranhao-br', name: 'Maranhão', uf: 'MA' },
-    { id: 'mato-grosso-br', name: 'Mato Grosso', uf: 'MT' },
-    { id: 'mato-grosso-do-sul-br', name: 'Mato Grosso do Sul', uf: 'MS' },
-    { id: 'minas-gerais-br', name: 'Minas Gerais', uf: 'MG' },
-    { id: 'para-br', name: 'Pará', uf: 'PA' },
-    { id: 'paraiba-br', name: 'Paraíba', uf: 'PB' },
-    { id: 'parana-br', name: 'Paraná', uf: 'PR' },
-    { id: 'pernambuco-br', name: 'Pernambuco', uf: 'PE' },
-    { id: 'piaui-br', name: 'Piauí', uf: 'PI' },
-    { id: 'rio-de-janeiro-br', name: 'Rio de Janeiro', uf: 'RJ' },
-    { id: 'rio-grande-do-norte-br', name: 'Rio Grande do Norte', uf: 'RN' },
-    { id: 'rio-grande-do-sul-br', name: 'Rio Grande do Sul', uf: 'RS' },
-    { id: 'rondonia-br', name: 'Rondônia', uf: 'RO' },
-    { id: 'roraima-br', name: 'Roraima', uf: 'RR' },
-    { id: 'santa-catarina-br', name: 'Santa Catarina', uf: 'SC' },
-    { id: 'sao-paulo-br', name: 'São Paulo', uf: 'SP' },
-    { id: 'sergipe-br', name: 'Sergipe', uf: 'SE' },
-    { id: 'tocantins-br', name: 'Tocantins', uf: 'TO' },
-]
-type MunicipiosType = { id: string, stateId: string, city: string }
-const ClinicasAfiliadas: MunicipiosType[] = [
-    { id: 'ita-mirim-ma', stateId: 'maranhao-br', city: 'Itapecuru-Mirim' },
-    { id: 'caxias-ma', stateId: 'maranhao-br', city: 'Caxias' },
-    { id: 'slz-ma', stateId: 'maranhao-br', city: 'São Luís' },
-]
 export default function Location() {
 
     const [page, setPage] = useState<'estados' | 'municipios'>('estados');
@@ -66,6 +33,7 @@ export default function Location() {
             const state = EstadosBrasileiros.find(i => i.id === city.stateId);
             if (state) {
                 await setLocationStorage({
+                    idCity: city.id,
                     city: city.city,
                     ufState: state.uf
                 })
@@ -89,7 +57,7 @@ export default function Location() {
             </View>
             <Text style={s.subtitle}>Selecione seu Estado</Text>
 
-            <ScrollView style={{ marginTop: 100, paddingHorizontal: 20 }}>
+            <ScrollView style={{ marginTop: 50, paddingHorizontal: 20 }}>
                 {EstadosBrasileiros.map((st) => (
                     <TouchableOpacity onPress={() => handleNextPage(st.id)} style={s.bttn} activeOpacity={0.7} key={st.id}>
                         <Text style={{ fontSize: 16, color: 'white', fontWeight: 600 }}>{st.name}</Text>
@@ -108,7 +76,7 @@ export default function Location() {
                 <Text style={s.title}> Locatização de Clínicas</Text>
             </View>
             <Text style={s.subtitle}>Clique abaixo para escolher{'\n'}o seu Município</Text>
-            <ScrollView style={{ paddingHorizontal: 20 }}>
+            <ScrollView style={{ marginTop: 50, paddingHorizontal: 20 }}>
                 {isLoading && <View style={s.container}>
                     <ActivityIndicator style={{ marginTop: '65%' }} size={'large'} color={colors.blue[100]} />
                 </View>}

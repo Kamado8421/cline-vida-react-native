@@ -1,3 +1,9 @@
+export type MunicipiosType = {
+    id: string,
+    stateId: string,
+    city: string
+}
+
 export type MedicineType = {
     id: string;
     name: string
@@ -18,4 +24,20 @@ export type ShoppingEndType = {
     month: MonthsType;
     year: number;
     shoppings: ShoppingType[];
+}
+
+export type ClinicType = {
+    id: string;
+    name: string;
+    address: string;
+    residentialNumber: number;
+    complement?: string;
+    neighborhood: string;
+    cep: string;
+    phone: string;
+    email: string;
+    cnpj: string;
+    whatsappNumber?: string;
+    doctorName: string;
+    cityId: string;
 }

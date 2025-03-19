@@ -12,3 +12,4 @@ export const colors = {
         400: '#444444',
     }
 }
+
