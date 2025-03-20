@@ -12,7 +12,7 @@ export default function Input({error, ...rest}: PropsType & TextInputProps){
     return (
         <View>
             <TextInput 
-                style={[styles.input, isFocused ? styles.inputFocus : {}]}
+                style={[styles.input, isFocused ? styles.inputFocus : {}, rest.style]}
                 {...rest}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}

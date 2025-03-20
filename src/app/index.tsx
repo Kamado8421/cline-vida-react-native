@@ -42,7 +42,7 @@ export default function Index() {
                 tudo em um só lugar
             </Text>
 
-            <Button title='Cadastrar-se como Médico' style={{ backgroundColor: colors.blue[200], width: '82%', marginTop: 20 }} onPress={() => router.navigate('/(tabs)/Home')} />
+            <Button title='Cadastrar-se como Médico' style={{ backgroundColor: colors.blue[200], width: '82%', marginTop: 20 }} onPress={() => router.navigate('/Register')} />
             <View style={s.boxBttn}>
                 <TouchableOpacity onPress={() => router.navigate('/Register')} activeOpacity={0.6} style={[s.bttn, { backgroundColor: colors.gray[100] }]}>
                     <Text style={[s.titleBttn, { color: colors.gray[400] }]}>Cadastrar-se</Text>

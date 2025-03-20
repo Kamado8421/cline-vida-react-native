@@ -11,7 +11,7 @@ export default function Home() {
             <View style={{ flex: 1, padding: 12 }}>
                 <Image 
                     style={s.banner}
-                    source={require('../../assets/cline-default.webp')}
+                    source={require('../../assets/banner01.png')}
                 />
                 <WhatsAppLinkingButton contentText='full' />
                 <Homebuttons />

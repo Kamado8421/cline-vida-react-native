@@ -6,7 +6,7 @@ import { router } from 'expo-router';
 
 const buttons: {label: string, icon: MyFontAwesome, onPress?: () => void}[] = [
     {label: 'Consultas', icon: 'stethoscope', onPress: () => router.navigate('/(home-cases)/Consult')},
-    {label: 'Exames', icon: 'flask'},
+    {label: 'Exames', icon: 'flask', onPress: () => router.push('/(home-cases)/ServiceLocations?route_exams=true')},
     //{label: 'Check-up', icon: 'check-circle-o'},
     //{label: 'Procedimentos', icon: 'user-md'},
     //{label: 'Cirurgias', icon: 'spinner'},
