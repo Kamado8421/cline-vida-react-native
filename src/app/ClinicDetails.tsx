@@ -8,6 +8,7 @@ import { ClinicType, MunicipiosType } from '../data/props';
 import { Clinics } from '../data/clinics.array';
 import Loading from '../components/pre-loading';
 import { ClinicasAfiliadas } from '../data/locations.array';
+import BlueGround from '../components/blue-ground';
 
 export default function ClinicDetails() {
 
@@ -46,15 +47,14 @@ export default function ClinicDetails() {
 
     return (
         <View style={s.container}>
-            <ToBackButton whiteColor />
-            <View style={s.ground}>
+            <BlueGround>
                 <View style={s.imageBox}>
                     <Image
                         source={require('../assets/cline-default.webp')}  // replace with the actual clinic image URL
                         style={s.image}
                     />
                 </View>
-            </View>
+            </BlueGround>
             <ScrollView style={{ flex: 1, backgroundColor: '', marginTop: 75 }}>
                 <View style={s.content}>
                     <Text style={s.clinicName}>{clinic.name}</Text>

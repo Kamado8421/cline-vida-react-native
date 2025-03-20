@@ -12,7 +12,26 @@ export const Clinics: ClinicType[] = [
         name: 'Clínica Vida-Ágape',
         residentialNumber: 240,
         neighborhood: 'Centro',
-        phone: '(98) 98989-0989'
+        phone: '(98) 98989-0989',
+        dentalServices: [
+            { id: '001', title: 'Plano de Aparelho Bucal', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat porro adipisci explicabo quam fuga omnis, quibusdam iure magni aliquam! Incidunt deleniti libero ab doloribus cum autem numquam velit? Sit, commodi.' }
+        ]
+    },
+    {
+        address: 'Abidala Buzar',
+        cep: '65485-000',
+        cityId: 'ita-mirim-ma',
+        cnpj: '32.345.777/0003-87',
+        doctorName: 'Dra. Suellen Dias',
+        id: '0003',
+        email: 'dias.cline@email.com',
+        name: 'Clínica Dias - Vida',
+        residentialNumber: 29,
+        neighborhood: 'Centro',
+        phone: '(98) 97865-2984',
+        dentalServices: [
+            { id: '0002', title: 'Restauração Dentária', desc: 'Descição aqui' }
+        ]
     },
     {
         address: 'Rua Mudica Sampaio',

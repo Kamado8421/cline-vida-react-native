@@ -26,6 +26,11 @@ export type ShoppingEndType = {
     shoppings: ShoppingType[];
 }
 
+export type DentalServecesType = {
+    id: string,
+    title: string,
+    desc: string
+}
 export type ClinicType = {
     id: string;
     name: string;
@@ -40,4 +45,13 @@ export type ClinicType = {
     whatsappNumber?: string;
     doctorName: string;
     cityId: string;
+    dentalServices?: DentalServecesType[];
+}
+
+export type ConsultType = {
+    id: string;
+    clinicId: string;
+    dateOpened: string;
+    dateEnd: string;
+    finished: boolean;
 }

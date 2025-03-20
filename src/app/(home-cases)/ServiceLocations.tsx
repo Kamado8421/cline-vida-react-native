@@ -7,7 +7,7 @@ import { Clinics } from '@/src/data/clinics.array';
 import { ClinicType } from '@/src/data/props';
 import { UserType } from '@/src/services/api.service';
 import { checkUser, getLocationStorage, LocationUserType } from '@/src/services/storages.service';
-import { router, useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
 
@@ -15,8 +15,6 @@ export default function ServiceLocations() {
     const [user, setUser] = useState<UserType>();
     const [location, setLocation] = useState<LocationUserType>()
     const [filterClinics, setFilterClinics] = useState<ClinicType[]>([])
-
-    const navigator = useRouter()
 
     useEffect(() => {
         const check = async () => {
@@ -49,7 +47,7 @@ export default function ServiceLocations() {
             <ToBackButton />
             <View style={{ flex: 1, paddingHorizontal: 40, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ textAlign: 'center', marginBottom: 30 }}>⚠️ Antes de proceguir, você precisa{'\n'}informar sua localização. Clique abaixo{'\n'}para proceguir.</Text>
-                <Button title='Informar Localização' onPress={() => navigator.push('/')} />
+                <Button title='Informar Localização' onPress={() => router.navigate('/')} />
             </View>
         </View>
     )
