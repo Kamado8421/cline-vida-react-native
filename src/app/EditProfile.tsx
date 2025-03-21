@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import EditProfileImg from '../components/edit-profile-img';
 import ToBackButton from '../components/to-back';
 import { colors } from '../config/colors';

@@ -1,6 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { View, Text, StyleSheet, Image, Alert, ScrollView } from 'react-native';
-import ToBackButton from '../components/to-back';
 import { colors } from '../config/colors';
 import Button from '../components/button';
 import { useEffect, useState } from 'react';
