@@ -8,6 +8,7 @@ import { Clinics } from '../data/clinics.array';
 import Loading from '../components/pre-loading';
 import { ClinicasAfiliadas } from '../data/locations.array';
 import BlueGround from '../components/blue-ground';
+import WhatsAppLinkingButton from '../components/whatsapp-button';
 
 export default function ClinicDetails() {
 
@@ -49,7 +50,7 @@ export default function ClinicDetails() {
             <BlueGround>
                 <View style={s.imageBox}>
                     <Image
-                        source={require('../assets/cline-default.webp')}  // replace with the actual clinic image URL
+                        source={clinic.urlImage ? {uri: clinic.urlImage} : require('../assets/cline-default.webp')}  // replace with the actual clinic image URL
                         style={s.image}
                     />
                 </View>
@@ -59,9 +60,9 @@ export default function ClinicDetails() {
                     <Text style={s.clinicName}>{clinic.name}</Text>
                     <Text style={s.adress}>
                         {clinic.address},
-                        Nº{clinic.residentialNumber},
+                        Nº{clinic.residentialNumber}, 
                         {clinic.neighborhood}{'\n'}
-                        {city?.city}</Text>
+                        {city?.city} - {clinic.cep}</Text>
                     <Text style={s.doctor}>{clinic.doctorName}</Text>
 
                     <View>
@@ -82,7 +83,13 @@ export default function ClinicDetails() {
                             <Text style={s.infoValue}>{clinic.whatsappNumber}</Text>
                         </View>}
                     </View>
-                    <Button title='Marcar Consulta' style={{ marginTop: 25, marginBottom: 30 }} onPress={() => alert('Função não aplicada')} />
+                    {clinic.whatsappNumber &&
+                        <WhatsAppLinkingButton
+                            contentText='linking'
+                            whatsappNumber={clinic.whatsappNumber}
+                            text={`Falar com ${clinic.name}`}
+                        />}
+                    <Button title='Marcar Consulta' style={{ marginTop: 25, marginBottom: 30 }} onPress={() => router.push(`/CompleteExam?clinic_id=${clinic.id}`)} />
                 </View>
             </ScrollView>
         </View>

@@ -1,8 +1,12 @@
 import BackHeader from '@/src/components/back-header';
 import ConsultCards from '@/src/components/consult-cads';
+import IncompleteUserScreen from '@/src/components/incomplete-user-screen';
+import ToBackButton from '@/src/components/to-back';
 import { colors } from '@/src/config/colors';
 import { consults } from '@/src/data/consults.array';
-import { useState } from 'react';
+import { UserType } from '@/src/services/api.service';
+import { checkUser } from '@/src/services/storages.service';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 
@@ -12,6 +16,25 @@ export default function Consult() {
     const consultsEnds = consults.filter(c => c.finished);
 
     const [screen, setScreen] = useState<'pending' | 'finished'>('pending');
+
+    const [user, setUser] = useState<UserType>();
+    useEffect(() => {
+            const check = async () => {
+                await checkUser(setUser);
+            }
+    
+            check();
+        }, []);
+
+
+    if (!user?.infos) return (
+            <View style={s.container}>
+                <ToBackButton />
+                <View style={{ flex: 1, marginTop: 80 }}>
+                    <IncompleteUserScreen />
+                </View>
+            </View>
+        )
 
     return (
         <View style={s.container}>

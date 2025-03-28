@@ -18,6 +18,7 @@ export default function CompleteExame() {
         const getClinic = () => {
             const clinicFounded = Clinics.find(c => c.id === clinic_id);
 
+            
             if (clinicFounded) {
                 setClinic(clinicFounded);
             } else {

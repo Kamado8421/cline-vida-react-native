@@ -28,14 +28,15 @@ export async function loginUser(data: { email: string, password: string }): Prom
 }
 
 export async function updateUser(data: UserInfosType & {email: string}): Promise<boolean> {
-    const result = await axios.post(`${HOST}/update-infos`, data);
-
+    //const result = await axios.post(`${HOST}/update-infos`, data);
+/*
     console.log(result.data)
-    if (result.status === 200) {
+    //if (result.status === 200) {
         const user = result.data
         setUserStorage(user);
 
         return true;
-    }
-    return false;
+    //}
+    //return false;*/
+    return true;
 }

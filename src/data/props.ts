@@ -42,6 +42,7 @@ export type ClinicType = {
     phone: string;
     email: string;
     cnpj: string;
+    urlImage?: string
     whatsappNumber?: string;
     doctorName: string;
     cityId: string;

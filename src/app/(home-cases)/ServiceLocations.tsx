@@ -39,7 +39,7 @@ export default function ServiceLocations() {
             return router.push(`/ClinicDetails?clinic_id=${id}`)
         }
 
-        return router.push(`/CompleteExam`);
+        return router.push(`/CompleteExam?clinic_id=${id}`);
 
     }
 
@@ -81,7 +81,7 @@ export default function ServiceLocations() {
                 renderItem={({ item }) => (
                     <View style={s.clineArea}>
                         <Image
-                            source={require('@/assets/images/icon.png')}
+                            source={item.urlImage ? {uri: item.urlImage} : require('@/assets/images/icon.png')}
                             style={s.imgClinica}
                         />
                         <View style={{ flex: 1 }}>

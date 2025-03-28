@@ -14,7 +14,7 @@ export default function DentalCards(props: PropsType) {
                 <FlatList
                     style={{
                         paddingHorizontal: 20,
-                        marginTop: 10
+                        marginTop: 10,
                     }}
                     data={item.dentalServices}
                     keyExtractor={(item) => item.id}
