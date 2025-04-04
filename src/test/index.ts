@@ -1,3 +1,12 @@
-import { loginUser } from '../services/api.service'
+import { AuthService } from "../services/auth.service";
 
-loginUser({email: 'luciano@gmail.com', password: '12345678'})
+const auth = new AuthService('http://localhost:3000');
+
+(async () => {
+    const r = await auth.login({
+        email: 'luciano@gmail.com',
+        password: '12345678'
+    });
+
+    console.log(r)
+})();

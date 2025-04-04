@@ -1,61 +1,91 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { styles } from './styles';
-import { useState } from 'react';
 import Button from '../button';
 import { colors } from '@/src/config/colors';
 import { router } from 'expo-router';
 
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const registerSchema = z
+  .object({
+    email: z.string().min(1, 'Preencha o campo de e-mail.').email('E-mail inválido.'),
+    password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres.'),
+    confirmPassword: z.string().min(1, 'Confirme sua senha.'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem.',
+    path: ['confirmPassword'], 
+  });
+
+
+type RegisterFormData = z.infer<typeof registerSchema>;
+
 export default function RegisterForms() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  });
 
-    const [email, setEmail] = useState('');
-    const [errorEmail, setErrorEmail] = useState('');
+  const handleRegister = async (data: RegisterFormData) => {
+ 
+    console.log('Form data:', data);
+  };
 
-    const [password, setPassword] = useState('');
-    const [errorPassword, setErrorPassword] = useState('');
+  return (
+    <View>
+      <TextInput
+        style={[styles.input]}
+        placeholder='E-mail'
+        keyboardType='email-address'
+        autoCapitalize='none'
+        onChangeText={(text) => setValue('email', text)}
+        value={watch('email')}
+        {...register('email')}
+      />
+      {errors.email && <Text style={styles.labelError}>{errors.email.message}</Text>}
 
-    const [confirmpassword, setConfirmPassword] = useState('');
-    const [errorConfirmPassword, setErrorConfirmPassword] = useState('');
+      <TextInput
+        style={[styles.input]}
+        placeholder='Senha'
+        secureTextEntry
+        onChangeText={(text) => setValue('password', text)}
+        value={watch('password')}
+        {...register('password')}
+      />
+      {errors.password && <Text style={styles.labelError}>{errors.password.message}</Text>}
 
-    const [focus, setFocus] = useState<'email' | 'password' | 'confirm' | ''>('');
+      <TextInput
+        style={[styles.input]}
+        placeholder='Confirme sua senha'
+        secureTextEntry
+        onChangeText={(text) => setValue('confirmPassword', text)}
+        value={watch('confirmPassword')}
+        {...register('confirmPassword')}
+      />
+      {errors.confirmPassword && <Text style={styles.labelError}>{errors.confirmPassword.message}</Text>}
 
-    return (
-        <View>
-            <TextInput
-                style={[styles.input, focus === 'email' ? styles.inputFocus : {}]}
-                placeholder='E-mail'
-                value={email}
-                onChangeText={setEmail}
-                onFocus={() => setFocus('email')}
-                onBlur={() => setFocus('')}
-            />
-            {errorEmail && <Text>{errorEmail}</Text>}
+      <Button
+        style={{ marginTop: 20 }}
+        title='Cadastrar-se'
+        isLoading={isSubmitting}
+        disabled={isSubmitting}
+        onPress={handleSubmit(handleRegister)}
+      />
 
-            <TextInput
-                style={[styles.input, focus === 'password' ? styles.inputFocus : {}]}
-                placeholder='Senha'
-                value={password}
-                onChangeText={setPassword}
-                onBlur={() => setFocus('')}
-                onFocus={() => setFocus('password')}
-                secureTextEntry={true}
-            />
+      <Text style={{ textAlign: 'center', marginTop: 20 }}>Já possui uma conta?</Text>
 
-            {errorPassword && <Text>{errorPassword}</Text>}
-            <TextInput
-                style={[styles.input, focus === 'confirm' ? styles.inputFocus : {}]}
-                placeholder='Confirme sua senha'
-                value={confirmpassword}
-                onChangeText={setConfirmPassword}
-                onBlur={() => setFocus('')}
-                onFocus={() => setFocus('confirm')}
-                secureTextEntry={true}
-            />
-            {errorConfirmPassword && <Text>{errorConfirmPassword}</Text>}
-
-            <Button style={{marginTop: 20}} title='Cadastrar-se' onPress={() => { }} />
-            <Text style={{ textAlign: 'center', marginTop: 20 }}>Já possui uma conta?</Text>
-            <Button title='Entrar na conta' style={{ backgroundColor: colors.gray[400], marginTop: 20 }} onPress={() => router.navigate('/Login')} />
-        </View>
-    )
+      <Button
+        title='Entrar na conta'
+        style={{ backgroundColor: colors.gray[400], marginTop: 20 }}
+        onPress={() => router.navigate('/Login')}
+      />
+    </View>
+  );
 }
-

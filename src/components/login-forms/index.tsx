@@ -1,76 +1,88 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
-import { useState } from 'react';
 import Button from '../button';
 import { colors } from '@/src/config/colors';
 import { router } from 'expo-router';
-import { loginUser } from '@/src/services/api.service';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AuthService } from '@/src/services/auth.service';
+
+
+const loginSchema = z.object({
+    email: z.string().min(1, 'Preencha o campo de e-mail.').email('E-mail inválido.'),
+    password: z.string().min(1, 'Preencha o campo com sua senha.'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForms() {
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+    });
 
-    const [email, setEmail] = useState('');
-    const [errorEmail, setErrorEmail] = useState('');
+    const handleLogin = async (data: LoginFormData) => {
+        const auth = new AuthService('http://192.168.1.38:3000');
 
-    const [password, setPassword] = useState('');
-    const [errorPassword, setErrorPassword] = useState('');
+        const resp = await auth.login({ ...data });
 
-    const [focus, setFocus] = useState<'email' | 'password' | ''>('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleLogin = async () => {
-        setIsLoading(true);
-
-        if (email === '') setErrorEmail('Preencha o campo de e-mail.'); else setErrorEmail('')
-        if (password === '') setErrorPassword('Preencha o campo com sua senha.'); else setErrorPassword('')
-
-        if (!email || !password) return setIsLoading(false);
-
-        const user = await loginUser({ email, password });
-        console.log(user)
-
-        if (user) {
-            router.navigate('/(tabs)/Home');
-            return;
+        if(resp.success){
+            alert('Logado com sucesso')
         } else {
-            setErrorEmail('');
-            setPassword('');
-            setFocus('');
-            setErrorPassword('E-mail ou senha inválidos. Tente Novamente.')
-            setIsLoading(false);
+            alert(resp.message)
         }
-       
-    }
 
+    };
 
     return (
         <View>
             <TextInput
-                style={[styles.input, focus === 'email' ? styles.inputFocus : {}]}
+                style={[styles.input]}
                 placeholder='E-mail'
-                value={email}
-                onChangeText={setEmail}
-                onFocus={() => setFocus('email')}
-                onBlur={() => setFocus('')}
+                onChangeText={(text) => setValue('email', text)}
+                {...register('email')}
+                value={watch('email')}
+                keyboardType='email-address'
+                autoCapitalize='none'
             />
-            {errorEmail && <Text style={styles.labelError}>{errorEmail}</Text>}
+            {errors.email && <Text style={styles.labelError}>{errors.email.message}</Text>}
 
             <TextInput
-                style={[styles.input, focus === 'password' ? styles.inputFocus : {}]}
+                style={[styles.input]}
                 placeholder='Senha'
-                value={password}
-                onChangeText={setPassword}
-                onBlur={() => setFocus('')}
-                onFocus={() => setFocus('password')}
-                secureTextEntry={true}
+                secureTextEntry
+                onChangeText={(text) => setValue('password', text)}
+                {...register('password')}
+                value={watch('password')}
             />
-            {errorPassword && <Text style={styles.labelError}>{errorPassword}</Text>}
-            <TouchableOpacity disabled={isLoading}>
+            {errors.password && <Text style={styles.labelError}>{errors.password.message}</Text>}
+
+            <TouchableOpacity disabled={isSubmitting}>
                 <Text style={styles.liking}>Esqueceu sua senha?</Text>
             </TouchableOpacity>
-            <Button isLoading={isLoading} disabled={isLoading} title='Entrar' onPress={() => handleLogin()} />
+
+            <Button isLoading={isSubmitting} disabled={isSubmitting} title='Entrar' onPress={handleSubmit(handleLogin)} />
+
             <Text style={{ textAlign: 'center', marginTop: 20 }}>Não tem uma conta?</Text>
-            <Button isLoading={false} disabled={isLoading} title='Cadastrar-se' style={{ backgroundColor: isLoading ? colors.gray[300] : colors.gray[400], marginTop: 20 }} onPress={() => router.navigate('/Register')} />
+
+            <Button
+                isLoading={false}
+                disabled={isSubmitting}
+                title='Cadastrar-se'
+                style={{
+                    backgroundColor: isSubmitting ? colors.gray[300] : colors.gray[400],
+                    marginTop: 20,
+                }}
+                onPress={() => router.navigate('/Register')}
+            />
         </View>
-    )
+    );
 }
+
 

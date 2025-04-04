@@ -3,7 +3,7 @@ import { colors } from '../config/colors';
 import { router } from 'expo-router'
 import Button from '../components/button';
 import { useEffect, useState } from 'react';
-import { checkUser } from '../services/storages.service';
+import { checkUser, getStorageAccessToken } from '../services/storages.service';
 import { UserType } from '../services/api.service';
 import Loading from '../components/pre-loading';
 
@@ -15,10 +15,13 @@ export default function Index() {
     useEffect(() => {
         const check = async () => {
             setIsloading(true);
-            const result = await checkUser(setUser);
-            if (result) {
+
+            const token = await getStorageAccessToken();
+
+            if(token){
                 router.navigate('/(tabs)/Home');
-            } else {
+                setIsloading(false);
+            } else { 
                 setIsloading(false);
             }
         }
