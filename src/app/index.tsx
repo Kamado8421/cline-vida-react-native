@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { checkUser, getStorageAccessToken } from '../services/storages.service';
 import { UserType } from '../services/api.service';
 import Loading from '../components/pre-loading';
+import Home from './(tabs)/Home';
 
 export default function Index() {
 
@@ -16,8 +17,9 @@ export default function Index() {
         const check = async () => {
             setIsloading(true);
 
-            const token = await getStorageAccessToken();
+            const token = await getStorageAccessToken().then(data => data?.access_token);
 
+            console.log('token: ', token)
             if(token){
                 router.navigate('/(tabs)/Home');
                 setIsloading(false);

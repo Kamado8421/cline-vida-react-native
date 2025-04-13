@@ -1,10 +1,13 @@
 import Loading from '@/src/components/pre-loading';
 import { colors } from '@/src/config/colors';
+import { HOST } from '@/src/services/api.service';
+import { AuthService, UserApiType } from '@/src/services/auth.service';
 import { checkUser } from '@/src/services/storages.service';
 import { MaterialIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router, Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
 export default function TabLayout() {
 
@@ -14,17 +17,23 @@ export default function TabLayout() {
   useEffect(() => {
     const check = async () => {
       setIsloading(true);
-      const result = await checkUser(setUser);
-      if (!result) {
-        router.navigate('/');
+
+
+      const auth = new AuthService(HOST);
+      const res = await auth.validateUserToken()
+
+      if (!res.success) {
+        setIsloading(false);
+        return router.navigate('/');
       } else {
         setIsloading(false)
       }
+
     }
     check();
   }, [])
 
-  if(isLoading) return <Loading />
+  if (isLoading) return <Loading />
 
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: colors.blue[200] }}>
@@ -36,7 +45,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
         }}
       />
-      
+
       <Tabs.Screen
         name="Cart"
         options={{

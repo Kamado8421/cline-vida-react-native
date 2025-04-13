@@ -1,16 +1,19 @@
 import { View, Text, StyleSheet } from 'react-native';
 import LoginForms from '../components/login-forms';
 import { colors } from '../config/colors';
-import {Feather} from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import ToBackButton from '../components/to-back';
+import { useEffect } from 'react';
+import AuthGuardValidate from '../services/guards/AuthValidate.guard';
 
-export default function Login(){
+
+export default function Login() {
     return (
         <View style={s.container}>
-            <ToBackButton/>
+            <ToBackButton />
             <Text style={s.title}>Faça seu Login</Text>
             <Text style={s.welcome}>Bem-vindo(a) de volta à sua{'\n'}plataforma de sáude!</Text>
-            <View style={{flex: 1, paddingHorizontal: 30, marginTop: 60, width: '100%'}}>
+            <View style={{ flex: 1, paddingHorizontal: 30, marginTop: 60, width: '100%' }}>
                 <LoginForms />
             </View>
         </View>

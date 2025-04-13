@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, DevSettings } from 'react-native';
 import { styles } from './styles';
 import Button from '../button';
 import { colors } from '@/src/config/colors';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthService } from '@/src/services/auth.service';
+import { HOST } from '@/src/services/api.service';
 
 
 const loginSchema = z.object({
@@ -28,12 +29,12 @@ export default function LoginForms() {
     });
 
     const handleLogin = async (data: LoginFormData) => {
-        const auth = new AuthService('http://192.168.1.38:3000');
+        const auth = new AuthService(HOST);
 
         const resp = await auth.login({ ...data });
 
         if(resp.success){
-            alert('Logado com sucesso')
+            DevSettings.reload();
         } else {
             alert(resp.message)
         }

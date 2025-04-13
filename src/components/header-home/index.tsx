@@ -7,8 +7,12 @@ import { router } from 'expo-router';
 import { checkUser, getLocationStorage, LocationUserType } from '@/src/services/storages.service';
 import AlertUserRegister from '../alert-user-register';
 import { UserType } from '@/src/services/api.service';
+import { string } from 'zod';
 
-export default function HeaderHome() {
+type Props = {
+    email: string
+}
+export default function HeaderHome({email}: Props) {
 
     const [isLoading, setIsloading] = useState(true);
     const [isShowCash, setIsShowCash] = useState(false);
@@ -17,37 +21,9 @@ export default function HeaderHome() {
     const [cityName, setCityName] = useState('Caregando...');
     const [city, setCity] = useState<LocationUserType>();
 
-    const [showRegisterAlert, setShowRegisterAlert] = useState(false);
+    const [showRegisterAlert, setShowRegisterAlert] = useState(true);
 
-    useEffect(() => {
-
-        const getUser = async () => {
-            const result = await checkUser(setUser);
-            if (result?.infos) {
-                setShowRegisterAlert(false);
-            } else {
-                setShowRegisterAlert(true);
-            }
-        }
-
-
-        const getCity = async () => {
-            setIsloading(true);
-            const res = await getLocationStorage(setCity);
-
-            if (res) {
-                setCity(res); // Atualiza o estado da cidade
-                setCityName(`${res.city} - ${res.ufState.toUpperCase()}`); // Usa diretamente o retorno
-            } else {
-                setCityName('Não informado.');
-            }
-
-            setIsloading(false);
-        };
-
-        getCity();
-        getUser();
-    }, []);
+    // fazer aqui a chamamda na api dos dados
 
     return (
         <View style={{ paddingHorizontal: 20 }}>
